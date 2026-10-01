@@ -231,6 +231,19 @@ describe("probeAnchor — SSRF guard", () => {
   });
 });
 
+describe("shared TOML hash helper", () => {
+  it("matches the probe's raw-text SHA-256 output", async () => {
+    const toml = 'VERSION = "2.0.0"\n';
+    const r = await probeAnchor("a.example", {
+      fetchImpl: (async (url: string | URL | Request) => {
+        if (String(url).endsWith("/.well-known/stellar.toml")) return new Response(toml);
+        return new Response("{}", { status: 404 });
+      }) as typeof fetch,
+    });
+    expect(r.tomlHash).toBe(sharedTomlHash(toml));
+  });
+});
+
 describe("probeAnchor", () => {
   it("passes every probe against a fully conformant anchor", async () => {
     const { fetchImpl } = stub();
