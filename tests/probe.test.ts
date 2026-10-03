@@ -17,6 +17,7 @@ import {
   probeAnchor,
   probeBit,
   sepBit,
+  tomlHash as sharedTomlHash,
   tomlValue,
   type ProbeName,
 } from "@corridor/probe";

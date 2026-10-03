@@ -68,7 +68,9 @@ describe("tomlHash", () => {
 describe("tomlHashCheck", () => {
   it("passes when the live TOML hash matches the attestation", async () => {
     const fetchImpl = vi.fn(async () => responseWith(TOML)) as unknown as typeof fetch;
-    const result = await tomlHashCheck({ registry: source(tomlHash(TOML)), fetchImpl }).run(context());
+    const result = await tomlHashCheck({ registry: source(tomlHash(TOML)), fetchImpl }).run(
+      context(),
+    );
     expect(result).toMatchObject({ name: "anchor.toml.hash", passed: true });
   });
 
@@ -91,7 +93,9 @@ describe("tomlHashCheck", () => {
   it("fails closed when fetch rejects", async () => {
     const result = await tomlHashCheck({
       registry: source(tomlHash(TOML)),
-      fetchImpl: vi.fn(async () => { throw new Error("network"); }) as unknown as typeof fetch,
+      fetchImpl: vi.fn(async () => {
+        throw new Error("network");
+      }) as unknown as typeof fetch,
     }).run(context());
     expect(result).toMatchObject({
       passed: false,
