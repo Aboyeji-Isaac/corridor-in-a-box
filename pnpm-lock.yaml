@@ -72,6 +72,9 @@ importers:
       prettier:
         specifier: ^3.9.9
         version: 3.9.9
+      parse-prometheus-text-format:
+        specifier: ^1.1.1
+        version: 1.1.1
       tsx:
         specifier: ^4.23.13
         version: 4.23.13
@@ -278,6 +281,14 @@ importers:
   packages/types: {}
 
 packages:
+  parse-prometheus-text-format@1.1.1:
+    resolution: {tarball: https://registry.npmjs.org/parse-prometheus-text-format/-/parse-prometheus-text-format-1.1.1.tgz}
+    dependencies:
+      shallow-equal: 1.1.0
+
+  shallow-equal@1.1.0:
+    resolution: {tarball: https://registry.npmjs.org/shallow-equal/-/shallow-equal-1.1.0.tgz}
+
 
   '@cacheable/memory@2.2.0':
     resolution: {integrity: sha512-CTLKqLItRCEixEAewD3/j9DB3/o96gpTPD4eJ1v+DGOlxZRZncRQkGYqqnAGCscYd6RNeXfGeiuCphsPtqyIfQ==}
@@ -2064,6 +2075,12 @@ packages:
     resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
 
 snapshots:
+  parse-prometheus-text-format@1.1.1:
+    dependencies:
+      shallow-equal: 1.1.0
+
+  shallow-equal@1.1.0: {}
+
 
   '@cacheable/memory@2.2.0':
     dependencies:
