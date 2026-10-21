@@ -19,7 +19,6 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html) once it reache
 - Added parser-based regression coverage for family types, HELP text, histogram
   buckets, aggregation, and escaped labels.
 
-
 ### Fixed — `RegistryRouteResolver` checks the protocol the corridor declares, not SEP-31 ([#211](https://github.com/ezedike-evan/corridor-in-a-box/issues/211))
 
 The registry-backed resolver asked every lane the same question — "is this
