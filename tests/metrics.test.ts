@@ -145,12 +145,24 @@ describe("PrometheusMetrics", () => {
     const r = await execute(intent, corridor(), deps(m as unknown as InMemoryMetrics));
     expect(r.ok).toBe(true);
     const parsed = parsePrometheusTextFormat(m.render()) as {
-      name: string; type: string; help: string;
-      metrics: Array<{ value?: string; count?: string; sum?: string; buckets?: Record<string, string>; labels?: Record<string, string> }>;
+      name: string;
+      type: string;
+      help: string;
+      metrics: Array<{
+        value?: string;
+        count?: string;
+        sum?: string;
+        buckets?: Record<string, string>;
+        labels?: Record<string, string>;
+      }>;
     }[];
     const counter = parsed.find((family) => family.name === "corridor_terminal");
-    expect(counter).toMatchObject({ type: "COUNTER", help: "Number of payments reaching a terminal state." });
+    expect(counter).toMatchObject({
+      type: "COUNTER",
+      help: "Number of payments reaching a terminal state.",
+    });
     expect(counter?.metrics.some((sample) => sample.labels?.state === "completed")).toBe(true);
+
     const histogram = parsed.find((family) => family.name === "corridor_verb_quote_seconds");
     expect(histogram).toMatchObject({
       type: "HISTOGRAM",
@@ -168,10 +180,18 @@ describe("PrometheusMetrics", () => {
     m.timing("corridor.verb.settle", 10, { corridor: "x" });
     m.timing("corridor.verb.settle", 30, { corridor: "x" });
     const parsed = parsePrometheusTextFormat(m.render()) as {
-      name: string; type: string;
-      metrics: Array<{ value?: string; count?: string; sum?: string; buckets?: Record<string, string> }>;
+      name: string;
+      type: string;
+      metrics: Array<{
+        value?: string;
+        count?: string;
+        sum?: string;
+        buckets?: Record<string, string>;
+      }>;
     }[];
-    expect(parsed.find((family) => family.name === "corridor_transition")?.metrics[0].value).toBe("2");
+    expect(
+      parsed.find((family) => family.name === "corridor_transition")?.metrics[0].value,
+    ).toBe("2");
     const histogram = parsed.find((family) => family.name === "corridor_verb_settle_seconds");
     expect(histogram?.metrics[0]).toMatchObject({
       count: "2",
@@ -182,7 +202,9 @@ describe("PrometheusMetrics", () => {
       .filter(([bound]) => bound !== "+Inf")
       .sort(([a], [b]) => Number(a) - Number(b))
       .map(([, count]) => Number(count));
-    expect(counts.every((count, index) => index === 0 || count >= counts[index - 1])).toBe(true);
+    expect(counts.every((count, index) => index === 0 || count >= counts[index - 1])).toBe(
+      true,
+    );
   });
 
   it("escapes quotes, backslashes and newlines in label values for a real parser", () => {
@@ -190,13 +212,18 @@ describe("PrometheusMetrics", () => {
     const labelValue = 'a"b\\c\nx';
     m.increment("e", { msg: labelValue });
     const parsed = parsePrometheusTextFormat(m.render()) as {
-      name: string; metrics: Array<{ labels?: Record<string, string> }>;
+      name: string;
+      metrics: Array<{ labels?: Record<string, string> }>;
     }[];
-    expect(parsed.find((family) => family.name === "e")?.metrics[0].labels?.msg).toBe(labelValue);
+    expect(parsed.find((family) => family.name === "e")?.metrics[0].labels?.msg).toBe(
+      labelValue,
+    );
   });
 
   it("rejects invalid histogram bucket configurations", () => {
-    expect(() => new PrometheusMetrics({ buckets: [0.1, 0.1] })).toThrow(/strictly increasing/);
+    expect(() => new PrometheusMetrics({ buckets: [0.1, 0.1] })).toThrow(
+      /strictly increasing/,
+    );
     expect(() => new PrometheusMetrics({ buckets: [0, 1] })).toThrow(/strictly increasing/);
   });
 });
