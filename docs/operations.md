@@ -619,10 +619,11 @@ terminal counter — they catch money that stopped needing a human (see §2):
 
 Useful companion series: `corridor_transition{to=…}` (throughput per state),
 `corridor_breaker_refused{corridor=…}`, and the timing histograms
-`corridor_verb_<verb>_seconds` (per-verb latency) and `corridor_duration_seconds`
-(end-to-end). Timing observations are converted from milliseconds to seconds;
-old `_ms_count`/`_ms_sum` samples are replaced by histogram `_bucket`, `_sum`, and
-`_count` samples. Use `histogram_quantile()` for latency percentiles, for example:
+`corridor_verb_<verb>_seconds` (per-verb latency) and
+`corridor_duration_seconds` (end-to-end). Timing observations are converted from
+milliseconds to seconds; old `_ms_count`/`_ms_sum` samples are replaced by
+histogram `_bucket`, `_sum`, and `_count` samples. Use `histogram_quantile()` for
+latency percentiles, for example:
 
 ```promql
 histogram_quantile(0.95, sum by (le) (rate(corridor_verb_settle_seconds_bucket[5m])))
