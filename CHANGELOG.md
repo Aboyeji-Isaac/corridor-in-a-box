@@ -7,7 +7,7 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html) once it reache
 
 ## [Unreleased]
 
-### Fixed — Prometheus exposition conformance ([#274](https://github.com/ezedike-evan/corridor-in-a-box/issues/274))
+### Fixed — Prometheus exposition conformance (#274)
 
 - Added HELP metadata to emitted metric families and changed timing metrics from
   incomplete millisecond summaries to parser-compatible histograms measured in
