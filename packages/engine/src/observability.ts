@@ -293,9 +293,8 @@ export class PrometheusMetrics implements Metrics {
     for (const name of [...timingNames].sort()) {
       const series = [...this.timings.values()].filter((timing) => timing.name === name);
       const helpKey = series[0].helpKey;
-      lines.push(
-        `# HELP ${name} ${escapeHelp(this.help.get(helpKey) ?? `Duration of ${helpKey} operations in seconds.`)}`,
-      );
+      const helpText = this.help.get(helpKey) ?? `Duration of ${helpKey} operations in seconds.`;
+      lines.push(`# HELP ${name} ${escapeHelp(helpText)}`);
       lines.push(`# TYPE ${name} histogram`);
       for (const timing of series) {
         this.buckets.forEach((bucket, index) => {
