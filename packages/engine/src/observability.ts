@@ -259,8 +259,8 @@ export class PrometheusMetrics implements Metrics {
     if (existing) {
       existing.count += 1;
       existing.sumSeconds += seconds;
-      existing.bucketCounts = existing.bucketCounts.map((count, index) =>
-        count + (seconds <= this.buckets[index] ? 1 : 0),
+      existing.bucketCounts = existing.bucketCounts.map(
+        (count, index) => count + (seconds <= this.buckets[index] ? 1 : 0),
       );
     } else {
       this.timings.set(key, {
@@ -293,7 +293,8 @@ export class PrometheusMetrics implements Metrics {
     for (const name of [...timingNames].sort()) {
       const series = [...this.timings.values()].filter((timing) => timing.name === name);
       const helpKey = series[0].helpKey;
-      const helpText = this.help.get(helpKey) ?? `Duration of ${helpKey} operations in seconds.`;
+      const helpText =
+        this.help.get(helpKey) ?? `Duration of ${helpKey} operations in seconds.`;
       lines.push(`# HELP ${name} ${escapeHelp(helpText)}`);
       lines.push(`# TYPE ${name} histogram`);
       for (const timing of series) {

@@ -221,7 +221,9 @@ describe("PrometheusMetrics", () => {
   });
 
   it("rejects invalid histogram bucket configurations", () => {
-    expect(() => new PrometheusMetrics({ buckets: [0.1, 0.1] })).toThrow(/strictly increasing/);
+    expect(() => new PrometheusMetrics({ buckets: [0.1, 0.1] })).toThrow(
+      /strictly increasing/,
+    );
     expect(() => new PrometheusMetrics({ buckets: [0, 1] })).toThrow(/strictly increasing/);
   });
 });
