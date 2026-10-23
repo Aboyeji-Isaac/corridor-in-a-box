@@ -23,6 +23,7 @@ describe("contracts/anchors.json fleet", () => {
       "arf.one",
       "stellar-sep-24.banxa.com",
       "flutterwave.com",
+      "bitso.com",
     ]);
     expect(fleet.anchors.map((a) => ({ domain: a.domain, kind: a.kind }))).toEqual([
       { domain: "testanchor.stellar.org", kind: "test" },
@@ -43,6 +44,7 @@ describe("contracts/anchors.json fleet", () => {
       { domain: "arf.one", kind: "other" },
       { domain: "stellar-sep-24.banxa.com", kind: "other" },
       { domain: "flutterwave.com", kind: "other" },
+      { domain: "bitso.com", kind: "other" },
     ]);
   });
 
