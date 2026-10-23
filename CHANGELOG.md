@@ -7,6 +7,14 @@ follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html) once it reache
 
 ## [Unreleased]
 
+### Maintenance — removed the unused `turbo.json`
+
+- Turborepo was never installed or invoked: `pnpm typecheck` is one `tsc` pass
+  and `pnpm test` is one `vitest run`. `turbo.json` and the `.turbo` entries in
+  `.gitignore`, `.prettierignore` and `eslint.config.js` are gone, so nobody
+  assumes there is task caching
+  ([#285](https://github.com/ezedike-evan/corridor-in-a-box/issues/285)).
+
 ### Added — every service request carries an `X-Request-Id` into the logs and the audit trail ([#269](https://github.com/ezedike-evan/corridor-in-a-box/issues/269))
 
 Engine logs and audit entries only carried `idempotencyKey` and `corridorId`,
