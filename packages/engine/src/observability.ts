@@ -367,12 +367,12 @@ export class PrometheusMetrics implements Metrics {
       for (const timing of series) {
         this.buckets.forEach((bucket, index) => {
           const labels = timing.labels
-            ? `${timing.labels.slice(0, -1)},le="${bucket}"`
+            ? `${timing.labels.slice(0, -1)},le="${bucket}"}`
             : `{le="${bucket}"}`;
           lines.push(`${name}_bucket${labels} ${timing.bucketCounts[index]}`);
         });
         const infLabels = timing.labels
-          ? `${timing.labels.slice(0, -1)},le="+Inf"`
+          ? `${timing.labels.slice(0, -1)},le="+Inf"}`
           : `{le="+Inf"}`;
         lines.push(`${name}_bucket${infLabels} ${timing.count}`);
         lines.push(`${name}_sum${timing.labels} ${timing.sumSeconds}`);

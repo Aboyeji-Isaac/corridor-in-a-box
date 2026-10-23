@@ -168,8 +168,11 @@ describe("PrometheusMetrics", () => {
       type: "HISTOGRAM",
       help: "Duration of corridor_verb_quote operations in seconds.",
     });
-    expect(histogram?.metrics[0].count).toBe("1");
-    expect(histogram?.metrics[0].sum).toBeDefined();
+    // The parser only surfaces _count/_sum for unlabelled series, so check the
+    // labelled ones in the raw exposition.
+    const text = m.render();
+    expect(text).toMatch(/^corridor_verb_quote_seconds_count\{[^}]*\} 1$/m);
+    expect(text).toMatch(/^corridor_verb_quote_seconds_sum\{[^}]*\} \S+$/m);
     expect(histogram?.metrics[0].buckets?.["+Inf"]).toBe("1");
   });
 
@@ -177,8 +180,8 @@ describe("PrometheusMetrics", () => {
     const m = new PrometheusMetrics({ buckets: [0.01, 0.025, 0.05] });
     m.increment("corridor.transition", { to: "settled" });
     m.increment("corridor.transition", { to: "settled" });
-    m.timing("corridor.verb.settle", 10, { corridor: "x" });
-    m.timing("corridor.verb.settle", 30, { corridor: "x" });
+    m.timing("corridor.verb.settle", 10);
+    m.timing("corridor.verb.settle", 30);
     const parsed = parsePrometheusTextFormat(m.render()) as {
       name: string;
       type: string;
